@@ -9,7 +9,7 @@ const Product: FC<{ product: ProductType }> = ({ product }) => {
     return (
 
         <Link
-            href={`/product/${product.id}`}
+            href={`/products/${product.id}`}
             className='h-96 flex flex-col p-6 rounded-lg group hover:scale-105 transition-transform ease-out duration-200 border'
         >
             <div className='relative max-h-80 flex-1'>
