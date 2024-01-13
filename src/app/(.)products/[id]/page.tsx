@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { StarIcon as StarIconOutline } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
+import { toast } from 'react-toastify';
 // import ReactStars from 'react-stars'
 
 
@@ -14,7 +15,32 @@ const ProductDetailedPage = () => {
     const [loading, setLoading] = useState(false)
     const [product, setProduct] = useState<ProductType>()
     const [isOpen, setIsOpen] = useState(true)
+    const [isAdded, setIsAdded] = useState(false)
+
     const router = useRouter()
+
+    const handleClick = () => {
+        setIsAdded(true)
+        const products: ProductType[] = JSON.parse(localStorage.getItem('carts') as string) || [];
+        const isExistProduct = products.find(c => c.id === product?.id)
+
+        if(isExistProduct){
+            const updateData = products.map(c => {
+                if(c.id === product?.id){
+                    return {
+                        ...c ,quantity: c.quantity+1,
+                    }
+                }
+                return c
+            });
+            localStorage.setItem('carts', JSON.stringify(updateData));
+        } else{
+            const data = [...products, {...product, quantity: 1}];
+            localStorage.setItem('carts', JSON.stringify(data));
+        }
+        toast("Product added to your bag!")
+        
+    }
 
     useEffect(() => {
         async function getData() {
@@ -103,7 +129,9 @@ const ProductDetailedPage = () => {
                                     </div>
 
                                     <div className='space-y-3 text-sm'>
-                                        <button className='button w-full bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-transparent hover:text-black'>
+                                        <button className='button w-full bg-blue-600 text-white border-transparent hover:border-blue-600 hover:bg-transparent hover:text-black'
+                                            onClick={handleClick}
+                                        >
                                             Add to bag
                                         </button>
                                         <button
