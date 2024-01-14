@@ -24,6 +24,11 @@ const Navbar = () => {
                         className='mr-5 hover:text-gray-900 '
                     >
                         All products
+                    </Link> <Link
+                        href={'/contacts'}
+                        className='mr-5 hover:text-gray-900 '
+                    >
+                        Contacts
                     </Link>
                 </nav>
                 <Link href={'shopping-cart'}>
