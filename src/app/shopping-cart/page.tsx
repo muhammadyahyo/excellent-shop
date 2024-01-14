@@ -10,12 +10,15 @@ import { useEffect, useState } from "react";
 const ShoppingCart = () => {
     const [total, setTotal] = useState<number>(0)
     const [products, setProducts] = useState<ProductType[]>(
-        JSON.parse(localStorage.getItem('carts') as string) || []
+         JSON.parse(localStorage.getItem('carts') as string) || []
     )
    
     const removeProduct =(id: number)=>{
         const updatedCart = products.filter(product => product.id !== id)
-        localStorage.setItem('carts', JSON.stringify(updatedCart))
+        if (typeof window !== 'undefined') {
+            // Perform localStorage action
+            localStorage.setItem('carts', JSON.stringify(updatedCart))
+          }
         setProducts(updatedCart)
     }
 
@@ -30,8 +33,11 @@ const ShoppingCart = () => {
 
 			return product;
 		});
-
-		localStorage.setItem('carts', JSON.stringify(updatedCart));
+        if (typeof window !== 'undefined') {
+            // Perform localStorage action
+            localStorage.setItem('carts', JSON.stringify(updatedCart));
+          }
+        
 		setProducts(updatedCart);
 	};
 
@@ -51,8 +57,10 @@ const ShoppingCart = () => {
 
 				return product;
 			});
-
-			localStorage.setItem('carts', JSON.stringify(updatedCart));
+            if (typeof window !== 'undefined') {
+                // Perform localStorage action
+                localStorage.setItem('carts', JSON.stringify(updatedCart));
+              }
 			setProducts(updatedCart);
 		}
 	};
